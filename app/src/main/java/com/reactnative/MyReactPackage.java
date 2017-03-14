@@ -5,8 +5,10 @@ import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.reactnative.nativeUI.NativePaintViewManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,6 +36,10 @@ public class MyReactPackage implements ReactPackage {
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
 
         //返回值需要修改
-        return Collections.emptyList();
+//        return Collections.emptyList();
+
+        // 因为自定义的原生View，需要返回native的ViewManager
+        return Arrays.<ViewManager>asList(new NativePaintViewManager());
+
     }
 }
