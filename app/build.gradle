@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def enableSeparateBuildPerCPUArchitecture = false
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -15,17 +17,44 @@ android {
     splits {
         abi {
             reset()
-            enable true
-            universalApk true  // If true, also generate a universal APK
+            enable enableSeparateBuildPerCPUArchitecture
+            universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "x86"
         }
     }
+
+    // 配置签名文件
+    signingConfigs {
+        release {
+            storeFile file("youdo.jks")
+            storePassword "rzq123456"
+            keyAlias "qndroid"
+            keyPassword "rzq123456"
+        }
+    }
+    // 多渠道设置
+    productFlavors {
+        kuan {}
+        xiaomi {}
+        qh360 {}
+        baidu {}
+        wandoujia {}
+    }
+
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
+
         }
     }
+
     configurations.all {
         resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.0'
     }
