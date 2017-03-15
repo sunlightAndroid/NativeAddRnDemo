@@ -59,7 +59,7 @@ public class MyPaintView extends View {
         super.onDraw(canvas);
 
         canvas.translate(width / 2, height / 2);
-        canvas.drawCircle(0, 0, 100, mPaint);
+        canvas.drawCircle(0, 0, raduis, mPaint);
     }
 
     /**
